@@ -1,0 +1,114 @@
+{% extends "cases/base.html" %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center">
+  <h1 class="h4 mb-3">{{ object.case_number }} — {{ object.title }}</h1>
+  <div>
+    <a class="btn btn-outline-secondary btn-sm" href="{% url 'cases:case_update' object.pk %}">Edit Case</a>
+    <a class="btn btn-outline-danger btn-sm" href="{% url 'cases:case_delete' object.pk %}">Delete</a>
+  </div>
+</div>
+
+<div class="row g-3">
+  <div class="col-lg-6">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h2 class="h6">Case details</h2>
+        <dl class="row">
+          <dt class="col-sm-4">Status</dt><dd class="col-sm-8"><span class="badge text-bg-secondary">{{ object.get_status_display }}</span></dd>
+          <dt class="col-sm-4">Court</dt><dd class="col-sm-8">{{ object.court|default:"—" }}</dd>
+          <dt class="col-sm-4">Filing date</dt><dd class="col-sm-8">{{ object.filing_date }}</dd>
+          <dt class="col-sm-4">Owner</dt><dd class="col-sm-8">{{ object.owner.get_username }}</dd>
+          <dt class="col-sm-4">Team</dt><dd class="col-sm-8">{% for u in object.team.all %}{{ u.username }}{% if not forloop.last %}, {% endif %}{% empty %}—{% endfor %}</dd>
+        </dl>
+        <p class="mt-2">{{ object.description|linebreaks }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-6">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center">
+          <h2 class="h6 mb-0">Deadlines</h2>
+          <a href="{% url 'cases:deadline_create' object.pk %}" class="btn btn-sm btn-primary">Add</a>
+        </div>
+        <ul class="list-group mt-2">
+          {% for d in object.deadlines.all %}
+          <li class="list-group-item d-flex justify-content-between">
+            <div>
+              <strong>{{ d.title }}</strong>
+              {% if d.is_overdue %}<span class="badge text-bg-danger ms-2">Overdue</span>{% endif %}
+              {% if d.is_completed %}<span class="badge text-bg-success ms-2">Done</span>{% endif %}
+              <div class="small text-muted">{{ d.notes|default:"" }}</div>
+            </div>
+            <div class="text-end">
+              <div class="mb-1"><span class="badge text-bg-info">{{ d.due_date }}</span></div>
+              <a class="btn btn-sm btn-outline-secondary" href="{% url 'cases:deadline_update' d.pk %}">Edit</a>
+              <a class="btn btn-sm btn-outline-danger" href="{% url 'cases:deadline_delete' d.pk %}">Delete</a>
+            </div>
+          </li>
+          {% empty %}
+          <li class="list-group-item">No deadlines yet.</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row g-3 mt-1">
+  <div class="col-lg-6">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center">
+          <h2 class="h6 mb-0">Parties</h2>
+          <a href="{% url 'cases:party_create' object.pk %}" class="btn btn-sm btn-primary">Add</a>
+        </div>
+        <ul class="list-group mt-2">
+          {% for p in object.parties.all %}
+          <li class="list-group-item d-flex justify-content-between">
+            <div>
+              <strong>{{ p.name }}</strong> <span class="text-muted">({{ p.get_party_type_display }})</span><br>
+              <small class="text-muted">{{ p.email|default:"" }} {{ p.phone|default:"" }}</small>
+            </div>
+            <div>
+              <a class="btn btn-sm btn-outline-secondary" href="{% url 'cases:party_update' p.pk %}">Edit</a>
+              <a class="btn btn-sm btn-outline-danger" href="{% url 'cases:party_delete' p.pk %}">Delete</a>
+            </div>
+          </li>
+          {% empty %}
+          <li class="list-group-item">No parties yet.</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-6">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center">
+          <h2 class="h6 mb-0">Documents</h2>
+          <a href="{% url 'cases:document_create' object.pk %}" class="btn btn-sm btn-primary">Upload</a>
+        </div>
+        <ul class="list-group mt-2">
+          {% for doc in object.documents.all %}
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <div>
+              <strong>{{ doc.title }}</strong>
+              <div class="small text-muted">{{ doc.original_filename }} • {{ doc.size|filesizeformat }} • {{ doc.uploaded_at|date:"M d, Y H:i" }}</div>
+            </div>
+            <div>
+              <a class="btn btn-sm btn-outline-primary" href="{% url 'cases:document_download' doc.pk %}">Download</a>
+              <a class="btn btn-sm btn-outline-danger" href="{% url 'cases:document_delete' doc.pk %}">Delete</a>
+            </div>
+          </li>
+          {% empty %}
+          <li class="list-group-item">No documents uploaded.</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

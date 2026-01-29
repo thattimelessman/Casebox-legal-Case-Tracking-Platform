@@ -1,0 +1,66 @@
+{% extends "cases/base.html" %}
+{% block content %}
+<h1 class="h3 mb-4">Dashboard</h1>
+
+<div class="row g-3">
+  <div class="col-md-4">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <div class="d-flex align-items-center justify-content-between">
+          <div>
+            <div class="text-muted">Your cases</div>
+            <div class="display-6">{{ case_count }}</div>
+          </div>
+          <a href="{% url 'cases:case_list' %}" class="btn btn-outline-primary btn-sm">View</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row g-4 mt-1">
+  <div class="col-md-6">
+    <h2 class="h5">Upcoming deadlines</h2>
+    <ul class="list-group">
+      {% for d in upcoming_deadlines %}
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        <span><strong>{{ d.title }}</strong> — {{ d.case.case_number }} ({{ d.case.title }})</span>
+        <span class="badge text-bg-info">{{ d.due_date }}</span>
+      </li>
+      {% empty %}
+      <li class="list-group-item">No upcoming deadlines.</li>
+      {% endfor %}
+    </ul>
+  </div>
+  <div class="col-md-6">
+    <h2 class="h5">Overdue deadlines</h2>
+    <ul class="list-group">
+      {% for d in overdue_deadlines %}
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        <span><strong>{{ d.title }}</strong> — {{ d.case.case_number }} ({{ d.case.title }})</span>
+        <span class="badge text-bg-danger">Due {{ d.due_date }}</span>
+      </li>
+      {% empty %}
+      <li class="list-group-item">No overdue deadlines. 🎉</li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+
+<div class="mt-4">
+  <h2 class="h5">Recent documents</h2>
+  <div class="list-group">
+    {% for doc in recent_documents %}
+    <a class="list-group-item list-group-item-action" href="{% url 'cases:case_detail' doc.case.pk %}">
+      <div class="d-flex w-100 justify-content-between">
+        <h6 class="mb-1">{{ doc.title }}</h6>
+        <small class="text-muted">{{ doc.uploaded_at|date:"M d, Y H:i" }}</small>
+      </div>
+      <small class="text-muted">{{ doc.case.case_number }} — {{ doc.case.title }}</small>
+    </a>
+    {% empty %}
+    <div class="list-group-item">No documents yet.</div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

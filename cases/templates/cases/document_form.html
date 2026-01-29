@@ -1,0 +1,41 @@
+{% extends "cases/base.html" %}
+{% block content %}
+<div class="container mt-4">
+  <h1 class="h4 mb-3">Upload Document</h1>
+
+  <form method="post" enctype="multipart/form-data" novalidate>
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+
+    <div class="mb-3">
+      <label class="form-label">{{ form.title.label }}</label>
+      {{ form.title }}
+      {% for e in form.title.errors %}
+        <div class="text-danger small">{{ e }}</div>
+      {% endfor %}
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">{{ form.description.label }}</label>
+      {{ form.description }}
+      {% for e in form.description.errors %}
+        <div class="text-danger small">{{ e }}</div>
+      {% endfor %}
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">{{ form.file.label }}</label>
+      {{ form.file }}
+      {% if form.file.help_text %}
+        <div class="form-text">{{ form.file.help_text }}</div>
+      {% endif %}
+      {% for e in form.file.errors %}
+        <div class="text-danger small">{{ e }}</div>
+      {% endfor %}
+    </div>
+
+    <button type="submit" class="btn btn-primary">Upload</button>
+    <a href="javascript:history.back()" class="btn btn-outline-secondary">Cancel</a>
+  </form>
+</div>
+{% endblock %}

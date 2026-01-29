@@ -1,0 +1,10 @@
+{% extends "cases/base.html" %}
+{% block content %}
+<h1 class="h4 mb-3">Confirm delete</h1>
+<p>Are you sure you want to delete <strong>{{ object }}</strong>?</p>
+<form method="post">
+  {% csrf_token %}
+  <button class="btn btn-danger">Yes, delete</button>
+  <a class="btn btn-outline-secondary" href="javascript:history.back()">Cancel</a>
+</form>
+{% endblock %}

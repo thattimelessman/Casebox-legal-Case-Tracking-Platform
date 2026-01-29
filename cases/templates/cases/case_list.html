@@ -1,0 +1,48 @@
+{% extends "cases/base.html" %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h1 class="h4">Cases</h1>
+  <a href="{% url 'cases:case_create' %}" class="btn btn-primary">New Case</a>
+</div>
+
+<form class="row g-2 mb-3">
+  <div class="col-md-4">
+    <input class="form-control" type="text" name="q" value="{{ request.GET.q }}" placeholder="Search title, number, court, description">
+  </div>
+  <div class="col-md-2">
+    <select class="form-select" name="status">
+      <option value="">All statuses</option>
+      {% for val, label in object_list.model.STATUS_CHOICES %}
+        <option value="{{ val }}" {% if request.GET.status == val %}selected{% endif %}>{{ label }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="col-md-2"><input class="form-control" type="date" name="from" value="{{ request.GET.from }}"></div>
+  <div class="col-md-2"><input class="form-control" type="date" name="to" value="{{ request.GET.to }}"></div>
+  <div class="col-md-2"><button class="btn btn-outline-secondary w-100">Filter</button></div>
+</form>
+
+<div class="table-responsive">
+<table class="table table-hover align-middle">
+  <thead><tr><th>#</th><th>Case Number</th><th>Title</th><th>Status</th><th>Filing Date</th><th></th></tr></thead>
+  <tbody>
+    {% for c in object_list %}
+    <tr>
+      <td>{{ forloop.counter0|add:page_obj.start_index }}</td>
+      <td class="fw-semibold">{{ c.case_number }}</td>
+      <td>{{ c.title }}</td>
+      <td><span class="badge text-bg-secondary">{{ c.get_status_display }}</span></td>
+      <td>{{ c.filing_date }}</td>
+      <td class="text-end">
+        <a class="btn btn-sm btn-outline-primary" href="{% url 'cases:case_detail' c.pk %}">Open</a>
+      </td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="6" class="text-center p-4">No cases found.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+
+{% include "cases/partials/_pagination.html" %}
+{% endblock %}
