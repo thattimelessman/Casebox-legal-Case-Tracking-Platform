@@ -3,7 +3,7 @@
 A full-stack legal case management system built for law firms and independent practitioners. CaseBox handles case tracking, document storage, deadline management, party records, and role-based access — with a custom-designed frontend and a Django REST API backend.
 
 **Live:** [casebox-beta.vercel.app](https://casebox-beta.vercel.app)  
-**Backend:** [casebox.onrender.com](https://casebox.onrender.com)
+
 
 ---
 
