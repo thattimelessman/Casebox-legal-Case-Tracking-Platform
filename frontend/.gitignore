@@ -1,24 +1,68 @@
+# ========================
+# Python / Django (backend)
+# ========================
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+venv/
+env/
+.venv/
+db.sqlite3
+*.sqlite3
+
+# Django migrations (optional - some teams keep these)
+# */migrations/*.py  ← leave commented, migrations should usually be tracked
+
+# ========================
+# Environment / Secrets
+# ========================
+.env
+.env.local
+.env.*.local
+*.env
+backend/.env
+frontend/.env
+
+# ========================
+# Node / React (frontend)
+# ========================
+node_modules/
+dist/
+dist-ssr/
+*.local
+frontend/node_modules/
+frontend/dist/
+
+# ========================
 # Logs
-logs
+# ========================
+logs/
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
-lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
-*.local
-
-# Editor directories and files
+# ========================
+# Editor / OS
+# ========================
 .vscode/*
 !.vscode/extensions.json
-.idea
+.idea/
 .DS_Store
+Thumbs.db
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+
+# ========================
+# Misc
+# ========================
+*.pyc
+*.pdb
+*.coverage
+.pytest_cache/
+htmlcov/

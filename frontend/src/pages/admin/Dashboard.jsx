@@ -15,8 +15,8 @@ export default function Dashboard() {
           api.get("/api/cases/"),
           api.get("/api/accounts/users/"),
         ]);
-        setCases(casesRes.data);
-        setUsers(usersRes.data);
+        setCases(Array.isArray(casesRes.data) ? casesRes.data : casesRes.data.results || []);
+        setUsers(Array.isArray(usersRes.data) ? usersRes.data : usersRes.data.results || []);
       } catch (err) {
         console.error("Dashboard fetch error:", err);
       } finally {
@@ -44,7 +44,7 @@ export default function Dashboard() {
 
   if (loading) {
     return (
-      <div style={{ padding: "32px", fontFamily: "'Cormorant Garamond', serif", textAlign: "center", color: "#7a7a8a", paddingTop: 80 }}>
+<div style={{ paddingTop: 80, paddingBottom: 32, paddingLeft: 32, paddingRight: 32, fontFamily: "'Cormorant Garamond', serif", textAlign: "center", color: "#7a7a8a" }}>
         Loading dashboard...
       </div>
     );
@@ -79,8 +79,7 @@ export default function Dashboard() {
           }}>
             <div style={{ fontSize: "1.8rem" }}>{icon}</div>
             <div>
-              <p style={{ fontSize: "1.8rem", fontWeight: 700, color, margin: 0, lineHeight: 1 }}>{value}</p>
-              <p style={{ color: "#7a7a8a", margin: "4px 0 0", fontSize: "0.82rem" }}>{label}</p>
+              <p style={{ fontSize: "1.8rem", fontWeight: 700, color, margin: 0, lineHeight: 1, fontFamily: "'DM Sans', sans-serif" }}>{value}</p>              <p style={{ color: "#7a7a8a", margin: "4px 0 0", fontSize: "0.82rem" }}>{label}</p>
             </div>
           </div>
         ))}

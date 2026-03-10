@@ -17,7 +17,8 @@ export default function CasesPage() {
     try {
       setLoading(true);
       const res = await api.get("/api/cases/");
-      setCases(res.data);
+      setCases(Array.isArray(res.data) ? res.data : res.data.results || []);
+
     } catch (err) {
       setError("Failed to load cases.");
     } finally {

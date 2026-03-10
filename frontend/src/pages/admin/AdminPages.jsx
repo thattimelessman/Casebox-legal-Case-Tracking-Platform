@@ -15,7 +15,7 @@ export function UsersPage() {
     try {
       setLoading(true);
       const res = await api.get("/api/accounts/users/");
-      setUsers(res.data);
+      setUsers(Array.isArray(res.data) ? res.data : res.data.results || []);
     } catch (err) {
       setError("Failed to load users.");
     } finally {
@@ -229,7 +229,8 @@ export function PendingApprovalsPage() {
     try {
       setLoading(true);
       const res = await api.get("/api/accounts/users/");
-      setPending(res.data.filter((u) => !u.is_approved));
+      const data = Array.isArray(res.data) ? res.data : res.data.results || [];
+setPending(data.filter((u) => !u.is_approved));
     } catch {
       setError("Failed to load pending approvals.");
     } finally {
@@ -329,7 +330,7 @@ export function AuditLogPage() {
     const fetchLogs = async () => {
       try {
         const res = await api.get("/api/logs/");
-        setLogs(res.data);
+        setLogs(Array.isArray(res.data) ? res.data : res.data.results || []);
       } catch {
         setError("Failed to load audit logs.");
       } finally {
