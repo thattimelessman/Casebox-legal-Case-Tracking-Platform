@@ -402,46 +402,6 @@ Sample response:
 
 ---
 
-## 🌐 Deployment
-
-### Backend — Render
-
-| Setting | Value |
-|---|---|
-| Root Directory | `backend` |
-| Runtime | Python 3 |
-| Build Command | `pip install -r requirements.txt && python manage.py migrate && python manage.py create_admin` |
-| Start Command | `gunicorn casebox.wsgi:application` |
-
-Environment variables:
-```env
-SECRET_KEY=<strong-random-50-char-key>
-DEBUG=False
-USE_SQLITE=True
-ADMIN_USERNAME=admin
-ADMIN_PASSWORD=<strong-password>
-ADMIN_EMAIL=admin@casebox.law
-ALLOWED_HOSTS=.onrender.com
-CORS_ALLOWED_ORIGINS=https://your-vercel-url.vercel.app
-```
-
-### Frontend — Vercel
-
-| Setting | Value |
-|---|---|
-| Root Directory | `frontend` |
-| Framework Preset | Create React App |
-| Build Command | `DISABLE_ESLINT_PLUGIN=true react-scripts build` |
-| Output Directory | `build` |
-
-Environment variable:
-```env
-REACT_APP_API_URL=https://your-render-url.onrender.com/api
-```
-
-After both are live, update `CORS_ALLOWED_ORIGINS` on Render to match the exact Vercel URL and redeploy.
-
----
 
 ## 🐛 Known Limitations
 
@@ -480,7 +440,7 @@ Questions, ideas, or found a bug?
 
 ---
 
-**NOTE: Stealing or copying this project without credit would be deeply unappreciated.**
+**NOTE: Stealing or copying this project without consent & credit would be deeply unappreciated.**
 
 ---
 
