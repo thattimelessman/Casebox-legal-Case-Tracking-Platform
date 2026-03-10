@@ -1,4 +1,4 @@
-## **CaseBox**
+# **CaseBox**
 
 A full-stack legal case management platform for law firms and independent practitioners. CaseBox centralises case tracking, hearing session notes, internal comments, document storage, and strict role-based access — with a custom-designed frontend and a Django REST API backend.
 
